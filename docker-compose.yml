@@ -32,11 +32,14 @@ services:
       - SONAR_JDBC_USERNAME=sonar
       - SONAR_JDBC_PASSWORD=sonar
     volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
     ports:
       - 9001:9000
+      - 9092:9092
   
   db:
     container_name: postgresql
@@ -55,6 +58,8 @@ services:
     image: bitnami/trivy:latest
 
 volumes:
+  sonarqube_bundled-plugins:
+  sonarqube_conf:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
@@ -67,3 +72,4 @@ volumes:
 # Check for password
 # sudo docker-compose logs --follow
 # Reference: https://medium.com/cloud-native-daily/10-stages-real-world-ci-cd-devsecops-pipeline-for-deployment-of-petclinic-application-f95431bf940
+# Reference: https://www.cprime.com/resources/blog/running-sonarqube/
